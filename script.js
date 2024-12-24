@@ -31,7 +31,24 @@ const displayImages = (images) => {
     const imgElement = document.createElement("div");
     imgElement.classList.add("img");
     imgElement.style.backgroundImage = `url(${image.urls.small})`;
-    imgElement.title = image.alt_description || "Image";
+
+    const overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+
+    const artist = document.createElement("div");
+    artist.classList.add("artist");
+    artist.textContent = image.user.name || "Unknown Artist";
+
+    const downloadLink = document.createElement("a");
+    downloadLink.classList.add("download-link");
+    downloadLink.href = image.links.download || "#";
+    downloadLink.textContent = "Download";
+    downloadLink.target = "_blank";
+
+    overlay.appendChild(artist);
+    overlay.appendChild(downloadLink);
+    imgElement.appendChild(overlay);
+
     grid.appendChild(imgElement);
   });
 };
