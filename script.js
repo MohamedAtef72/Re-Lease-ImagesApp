@@ -1,9 +1,11 @@
+// Get reference to the elements in the website
 const inputBox = document.getElementById("input-box");
 const searchButton = document.getElementById("search-button");
 const grid = document.getElementById("grid");
 
 const UNSPLASH_ACCESS_KEY = "xvXn0NX8qlFywdLwjQSXNAwh-4lBF2pdWwQm0yeAlyU";
 
+// Get the images from the api
 const fetchImages = async (query) => {
   try {
     const response = await axios.get(`https://api.unsplash.com/search/photos`, {
@@ -22,6 +24,7 @@ const fetchImages = async (query) => {
   }
 };
 
+// Display the images on the website
 const displayImages = (images) => {
   grid.innerHTML = "";
   images.forEach((image) => {
@@ -33,6 +36,7 @@ const displayImages = (images) => {
   });
 };
 
+// Event Listener for the searchButton
 searchButton.addEventListener("click", () => {
   const query = inputBox.value.trim();
   if (query) {
