@@ -1,5 +1,5 @@
 const randomButton = document.getElementById("random-button");
-const input = document.getElementById("input-box");
+const inputBox = document.getElementById("input-box");
 const grid = document.getElementById("grid");
 window.onload = () => {
     clearGrid();
@@ -41,7 +41,7 @@ const fetchRandomTopic = () => {
                 ? photo.tags[0].title
                 : "nature";
             // Set the topic in the input box
-            input.value = topic;
+            inputBox.value = topic;
             // Fetch 12 photos related to this topic
             fetchPhotosByTopic(topic);
         })
