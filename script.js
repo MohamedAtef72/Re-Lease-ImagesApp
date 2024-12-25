@@ -3,6 +3,7 @@ const inputBox = document.getElementById("input-box");
 const searchButton = document.getElementById("search-button");
 const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
+const websiteTitle = document.getElementById("web-title");
 const grid = document.getElementById("grid");
 const UNSPLASH_ACCESS_KEY = "z5LUKk3Qbky4069Ni_IhrgBj5Nm2Ml1LQG3JHUeOZH8";
 
@@ -132,9 +133,16 @@ prevButton.addEventListener("click", () => {
     prevButton.disabled = currentPage === 1;
   }
 });
-
 // Fetch initial set of random images on load
 window.onload = () => {
   fetchRandomPhotos();
   prevButton.disabled = true;
 };
+websiteTitle.addEventListener("click", () => {
+  inputBox.value = ""; 
+  currentQuery = "";   
+  currentPage = 1;     
+  isRandomMode = true; 
+  fetchRandomPhotos(); 
+  prevButton.disabled = true; 
+});

@@ -22,9 +22,11 @@ header {
   flex-wrap: wrap;
 }
 .nav h2 {
+  font-style: italic;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .nav h2 i {
   margin-right: 10px;
