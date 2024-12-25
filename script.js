@@ -4,28 +4,21 @@ const searchButton = document.getElementById("search-button");
 const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
 const grid = document.getElementById("grid");
-const UNSPLASH_ACCESS_KEY = "xvXn0NX8qlFywdLwjQSXNAwh-4lBF2pdWwQm0yeAlyU";
-// Function to fetch 12 random photos
-const fetchRandomPhotos = async () => {
-  try {
-    const response = await axios.get(`https://api.unsplash.com/photos/random`, {
-      params: {
-        client_id: UNSPLASH_ACCESS_KEY,
-        count: 12,
-      },
-    });
-    displayImages(response.data);
-  } catch (error) {
-    console.error("Error fetching random images:", error);
-  }
-};
-// Function to fetch photos based on a topic
-const fetchPhotosByTopic = async (topic) => {
+const UNSPLASH_ACCESS_KEY = "z5LUKk3Qbky4069Ni_IhrgBj5Nm2Ml1LQG3JHUeOZH8";
+
+let currentPage = 1;
+let currentQuery = "";
+let isRandomMode = true;
+
+// Function to fetch photos based on a topic and page
+const fetchPhotosByTopic = async (topic, page = 1) => {
+  prevButton.disabled = true;
   try {
     const response = await axios.get(`https://api.unsplash.com/search/photos`, {
       params: {
         query: topic,
         per_page: 12,
+        page,
         client_id: UNSPLASH_ACCESS_KEY,
       },
     });
@@ -34,58 +27,114 @@ const fetchPhotosByTopic = async (topic) => {
     console.error("Error fetching topic-related images:", error);
   }
 };
+
+// Function to fetch 12 random photos
+const fetchRandomPhotos = async (page = 1) => {
+  prevButton.disabled = true;
+  try {
+    const response = await axios.get(`https://api.unsplash.com/photos`, {
+      params: {
+        client_id: UNSPLASH_ACCESS_KEY,
+        per_page: 12,
+        page,
+      },
+    });
+    displayImages(response.data);
+  } catch (error) {
+    console.error("Error fetching random images:", error);
+  }
+};
+
 // Function to display the images in the grid
 const displayImages = (images) => {
-  grid.innerHTML = "";  // Clear previous images
+  grid.innerHTML = ""; // Clear previous images
   images.forEach((image) => {
     const imgElement = document.createElement("div");
     imgElement.classList.add("img");
     imgElement.style.backgroundImage = `url(${image.urls.small})`;
+
     const overlay = document.createElement("div");
     overlay.classList.add("overlay");
+
     const artist = document.createElement("div");
     artist.classList.add("artist");
     artist.textContent = image.user.name || "Unknown Artist";
+
     const downloadLink = document.createElement("a");
     downloadLink.classList.add("download-link");
     downloadLink.href = image.links.download || "#";
     downloadLink.textContent = "Download";
     downloadLink.target = "_blank";
+
     overlay.appendChild(artist);
     overlay.appendChild(downloadLink);
     imgElement.appendChild(overlay);
     grid.appendChild(imgElement);
   });
 };
+
 // Function to handle the random button click
 randomButton.addEventListener("click", async () => {
   try {
     const response = await axios.get(`https://api.unsplash.com/photos/random`, {
       params: {
-        client_id: UNSPLASH_ACCESS_KEY
-      }
+        client_id: UNSPLASH_ACCESS_KEY,
+      },
     });
-    const photo = response.data;  // response.data is the photo object directly
-    const topic = photo.tags && photo.tags.length > 0
-      ? photo.tags[0].title
-      : "nature";
+    const photo = response.data;
+    const topic =
+      photo.tags && photo.tags.length > 0 ? photo.tags[0].title : "nature";
     inputBox.value = topic;
-    fetchPhotosByTopic(topic);
+    currentQuery = topic;
+    currentPage = 1;
+    isRandomMode = false;
+    fetchPhotosByTopic(topic, currentPage);
   } catch (error) {
     console.error("Error fetching a random topic:", error);
   }
 });
-// Event listener for the searchButton
+
+// Event listener for the search button
 searchButton.addEventListener("click", () => {
   const query = inputBox.value.trim();
   if (query) {
-    fetchPhotosByTopic(query);
+    currentQuery = query;
+    currentPage = 1;
+    isRandomMode = false;
+    fetchPhotosByTopic(query, currentPage);
+  } else {
+    isRandomMode = true;
+    currentPage = 1;
+    fetchRandomPhotos(currentPage);
   }
 });
+
+// Event listener for the next button
+nextButton.addEventListener("click", () => {
+  currentPage++;
+  if (isRandomMode) {
+    fetchRandomPhotos(currentPage);
+  } else {
+    fetchPhotosByTopic(currentQuery, currentPage);
+  }
+  prevButton.disabled = currentPage === 1;
+});
+
+// Event listener for the previous button
+prevButton.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    if (isRandomMode) {
+      fetchRandomPhotos(currentPage);
+    } else {
+      fetchPhotosByTopic(currentQuery, currentPage);
+    }
+    prevButton.disabled = currentPage === 1;
+  }
+});
+
 // Fetch initial set of random images on load
 window.onload = () => {
   fetchRandomPhotos();
+  prevButton.disabled = true;
 };
-nextButton.addEventListener("click",()=>{
-  prevButton.disabled = false;
-});
