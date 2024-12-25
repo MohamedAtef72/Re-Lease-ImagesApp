@@ -1,6 +1,8 @@
 const randomButton = document.getElementById("random-button");
 const inputBox = document.getElementById("input-box");
 const searchButton = document.getElementById("search-button");
+const nextButton = document.getElementById("next-button");
+const prevButton = document.getElementById("prev-button");
 const grid = document.getElementById("grid");
 const UNSPLASH_ACCESS_KEY = "xvXn0NX8qlFywdLwjQSXNAwh-4lBF2pdWwQm0yeAlyU";
 // Function to fetch 12 random photos
@@ -84,3 +86,6 @@ searchButton.addEventListener("click", () => {
 window.onload = () => {
   fetchRandomPhotos();
 };
+nextButton.addEventListener("click",()=>{
+  prevButton.disabled = false;
+});
