@@ -1,3 +1,5 @@
+import UNSPLASH_ACCESS_KEY from "./env.js";
+
 const randomButton = document.getElementById("random-button");
 const inputBox = document.getElementById("input-box");
 const searchButton = document.getElementById("search-button");
@@ -5,7 +7,6 @@ const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
 const websiteTitle = document.getElementById("web-title");
 const grid = document.getElementById("grid");
-const UNSPLASH_ACCESS_KEY = "z5LUKk3Qbky4069Ni_IhrgBj5Nm2Ml1LQG3JHUeOZH8";
 
 let currentPage = 1;
 let currentQuery = "";
