@@ -19,7 +19,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
 .nav h2 {
   font-style: italic;
@@ -35,18 +34,18 @@ header {
 .serach-box {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
   justify-content: center;
 }
+
 .serach-box input {
   padding: 10px;
   font-size: 1rem;
   border: 2px solid #ddd;
   border-radius: 10px;
   outline: none;
-  width: 250px;
   transition: all 0.3s ease;
-  flex: 1;
 }
 .serach-box input:focus {
   border-color: #00bcd4;
@@ -69,55 +68,18 @@ section {
   padding: 20px 0;
 }
 #grid {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
 }
-@media (max-width: 768px) {
-  .serach-box {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .serach-box input {
-    width: 100%;
-  }
-  .serach-box button {
-    width: 100%;
-  }
-  .img {
-    flex: 1 1 calc(50% - 20px);
-  }
-  .pagination button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-}
-@media (max-width: 600px) {
-  .nav h2 {
-    font-size: 1.2rem;
-  }
-  .img {
-    flex: 1 1 100%;
-  }
-  .pagination {
-    flex-direction: column;
-    align-items: center;
-  }
-  .pagination button {
-    width: 100%;
-    max-width: none;
-  }
-}
+
 .img {
   position: relative;
-  width: 380px;
+  width: 100%;
   height: 214px;
   background-position: center;
   background-size: cover;
-  border-radius: 2px;
+  border-radius: 0.75rem;
   cursor: pointer;
   overflow: hidden;
 }
@@ -171,4 +133,50 @@ section {
 }
 .pagination button:hover:not(:disabled) {
   background-color: #0097a7;
+}
+
+@media (max-width: 768px) {
+  #grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .serach-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pagination button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .nav {
+    flex-direction: column;
+  }
+
+  .search-box > input {
+    flex: 1;
+  }
+
+  .search-box > button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 475px) {
+  #grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .nav h2 {
+    font-size: 1.2rem;
+  }
+  .img {
+    flex: 1 1 100%;
+  }
+  .pagination {
+    flex-direction: column;
+    align-items: center;
+  }
+  .pagination button {
+    width: 100%;
+    max-width: none;
+  }
 }
