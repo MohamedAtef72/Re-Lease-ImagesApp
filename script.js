@@ -59,8 +59,12 @@ const fetchRandomPhotos = async (page = 1) => {
 
 // Function to display the images in the grid
 const displayImages = (images) => {
-  grid.innerHTML = ""; // Clear previous images
+  grid.innerHTML = "";
   images.forEach((image) => {
+    const imgWrapper = document.createElement("a");
+    imgWrapper.href = image.links.download || "#";
+    imgWrapper.target = "_blank";
+
     const imgElement = document.createElement("div");
     imgElement.classList.add("img");
     imgElement.style.backgroundImage = `url(${image.urls.small})`;
@@ -81,7 +85,8 @@ const displayImages = (images) => {
     overlay.appendChild(artist);
     overlay.appendChild(downloadLink);
     imgElement.appendChild(overlay);
-    grid.appendChild(imgElement);
+    imgWrapper.appendChild(imgElement);
+    grid.appendChild(imgWrapper);
   });
 };
 
@@ -150,10 +155,10 @@ window.onload = () => {
   prevButton.disabled = true;
 };
 websiteTitle.addEventListener("click", () => {
-  inputBox.value = ""; 
-  currentQuery = "";   
-  currentPage = 1;     
-  isRandomMode = true; 
-  fetchRandomPhotos(); 
-  prevButton.disabled = true; 
+  inputBox.value = "";
+  currentQuery = "";
+  currentPage = 1;
+  isRandomMode = true;
+  fetchRandomPhotos();
+  prevButton.disabled = true;
 });
