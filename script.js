@@ -1,4 +1,4 @@
-import UNSPLASH_ACCESS_KEY from "./env.js";
+import UNSPLASH_ACCESS_KEY from "./config.js";
 
 const randomButton = document.getElementById("random-button");
 const inputBox = document.getElementById("input-box");
