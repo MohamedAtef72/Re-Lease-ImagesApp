@@ -23,7 +23,18 @@ const fetchPhotosByTopic = async (topic, page = 1) => {
         client_id: UNSPLASH_ACCESS_KEY,
       },
     });
-    displayImages(response.data.results);
+    if (response.data.results.length === 0) {
+      toastr.error("Failed topic: No related photos found.", "Error", {
+        onHidden: () => {
+          inputBox.value = "";
+          currentQuery = "";
+          currentPage = 1;
+          isRandomMode = true;
+        },
+      });
+    } else {
+      displayImages(response.data.results);
+    }
   } catch (error) {
     console.error("Error fetching topic-related images:", error);
   }
