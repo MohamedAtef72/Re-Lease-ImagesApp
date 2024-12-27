@@ -1,4 +1,4 @@
-import UNSPLASH_ACCESS_KEY from "./config.js";
+import "./style.css";
 
 const randomButton = document.getElementById("random-button");
 const inputBox = document.getElementById("input-box");
@@ -7,6 +7,8 @@ const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
 const websiteTitle = document.getElementById("web-title");
 const grid = document.getElementById("grid");
+const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
+console.log(import.meta.env);
 
 let currentPage = 1;
 let currentQuery = "";
